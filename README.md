@@ -1,81 +1,23 @@
-# Turborepo starter
+# 游戏排行榜系统
+## 功能实现情况
+- 实现了排行榜展示和用户详情
+- 竞争分析仅写了接口实现思路
+- 数据可视化未实现。
 
-This is an official starter Turborepo.
+排行榜为最多被访问到的页面，所以尽可能使用Server Component，数据请求也都从server侧发起。可以避免请求瀑布流，让用户更快看到排行情况。
 
-## Using this example
+用户情况页面，需要从排行榜进入，根据现有接口情况，实现为弹出modal，因为用户头像和名称需要从列表页传入。
+更好的做法是，获取用户排名详情时，同时返回用户名称和头像，将用户详情页也转化为Server Component，页面中的多个section可根据接口返回情况流式返回HTML。
 
-Run the following command:
+竞争分析的内容，应该由一个接口返回所需的展示数据。
 
-```sh
-npx create-turbo@latest
-```
+个人评估，数据可视化相比于其他三个需要，紧迫程度最低，大部分数据可以通过排行榜看到；同时对需求有些疑惑。
 
-## What's inside?
+## 技术选型和理由
+此功能主要为c端页面，且页面上交互不重，可以通过Server Component较大减少可交互的等待时间，所以选择了next.js。
 
-This Turborepo includes the following packages/apps:
+## 遇到的问题
+假定题目上下的类型定义即为所有接口，那么后端接口支持不够；用户详情和竞争分析都可以通过加特定接口较大简化问题。
 
-### Apps and Packages
+从接口看，排名分布中的percentiles含义不明，不确定是每一项中的score的含义，是某个分数还是分数区间呢？按按竞争分析的功能理解，分数大概是个无上限、范围较大数值，但从排名分布的接口看，所以应该是个区间，但一个数值代表的区间是有歧义的。
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
